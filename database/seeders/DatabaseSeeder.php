@@ -1,38 +1,32 @@
 <?php
-
 namespace Database\Seeders;
-
+use Illuminate\Database\Seeder;
+use App\Models\Category;
 use App\Models\Todo;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
-
-        User::factory()->create([
-            'name' => 'Admin',
-            'email' => 'admin@admin.com',
-            'email_verified_at' => now(),
-            'password' => Hash::make('password'),
-            'remember_token' => Str::random(10),
-            'is_admin' => true,
+        // Buat user terlebih dahulu
+        $user = User::factory()->create([
+            'name' => 'Test User',
+            'email' => 'test@example.com',
         ]);
 
-        User::factory(100)->create();
-        Todo::factory(500)->create();
+        // Buat 5 kategori dengan user_id yang sama
+        Category::factory()
+            ->count(5)
+            ->create([
+                'user_id' => $user->id,
+            ])
+            ->each(function ($category) {
+                // Untuk setiap kategori, buat 3 todo
+                Todo::factory()->count(3)->create([
+                    'category_id' => $category->id,
+                    'user_id' => $category->user_id, // Pastikan todo juga memiliki user_id yang sama
+                ]);
+            });
     }
 }
