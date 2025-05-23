@@ -1,79 +1,65 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+        <h2 class="font-semibold text-2xl text-white leading-tight">
             {{ __('Todo Category') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
-                <div class="p-6 text-xl text-gray-900 dark:text-gray-100">
-                    <div class="flex items-center justify-between">
-                        <x-create-button href="{{ route('category.create') }}" />
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
-                        <div>
-                            @if (session('success'))
-                                <p x-data="{ show: true }" x-show="show" x-transition
-                                    x-init="setTimeout(() => show = false, 5000)"
-                                    class="text-sm text-green-600 dark:text-green-400">
-                                    {{ session('success') }}
-                                </p>
-                            @endif
+            {{-- Header Actions --}}
+            <div class="flex items-center justify-between">
+                {{-- Tombol Create --}}
+                <a href="{{ route('category.create') }}"
+                    class="bg-transparent border border-white text-white px-4 py-2 rounded-md hover:bg-white hover:text-gray-900 transition">
+                    + Create Category
+                </a>
 
-                            @if (session('danger'))
-                                <p x-data="{ show: true }" x-show="show" x-transition
-                                    x-init="setTimeout(() => show = false, 5000)"
-                                    class="text-sm text-red-600 dark:text-red-400">
-                                    {{ session('danger') }}
-                                </p>
-                            @endif
-                        </div>
-                    </div>
+                {{-- Notifikasi --}}
+                <div class="space-y-1">
+                    @if (session('success'))
+                        <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 5000)"
+                            class="text-sm text-green-300">
+                            {{ session('success') }}
+                        </p>
+                    @endif
+
+                    @if (session('danger'))
+                        <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 5000)"
+                            class="text-sm text-red-400">
+                            {{ session('danger') }}
+                        </p>
+                    @endif
                 </div>
-
-                <!-- Tambahkan margin top agar tabel agak turun dari header -->
-                <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-6">
-                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                        <thead class="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                            <tr>
-                                <th scope="col" class="px-6 py-3">Title</th>
-                                <th scope="col" class="px-6 py-3">Todo</th>
-                                <th scope="col" class="px-6 py-3">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($categories as $category)
-                                <tr class="odd:bg-white odd:dark:bg-gray-800 even:bg-gray-50 even:dark:bg-gray-700">
-                                    <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">
-                                        <a href="{{ route('category.edit', $category) }}" class="hover:underline">
-                                            {{ $category->title }}
-                                        </a>
-                                    </td>
-                                    <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">
-                                        {{ $category->todos ? $category->todos->count() : 0 }}
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <form action="{{ route('category.destroy', $category) }}" method="POST"
-                                            onsubmit="return confirm('Are you sure you want to delete this category?')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="text-red-600 dark:text-red-400">Delete</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="3" class="px-6 py-4 text-center font-medium text-gray-900 dark:text-white">
-                                        Empty
-                                    </td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
-
             </div>
+
+            {{-- Daftar Kategori --}}
+            <div class="space-y-4">
+                @forelse ($categories as $category)
+                    <div class="p-4 bg-gray-800 rounded-lg shadow flex justify-between items-center">
+                        <div>
+                            <a href="{{ route('category.edit', $category) }}"
+                                class="text-white text-lg font-semibold hover:underline">
+                                {{ $category->title }}
+                            </a>
+                            <p class="text-sm text-gray-300">Total Todos: {{ $category->todos->count() }}</p>
+                        </div>
+                        <form action="{{ route('category.destroy', $category) }}" method="POST"
+                            onsubmit="return confirm('Are you sure you want to delete this category?')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit"
+                                class="bg-red-600 hover:bg-red-500 text-white px-4 py-2 rounded-md transition">
+                                Delete
+                            </button>
+                        </form>
+                    </div>
+                @empty
+                    <p class="text-white text-center">No categories found.</p>
+                @endforelse
+            </div>
+
         </div>
     </div>
 </x-app-layout>

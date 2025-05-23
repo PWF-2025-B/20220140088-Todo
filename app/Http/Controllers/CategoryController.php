@@ -7,30 +7,24 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
-        // Eager load the 'todos' relationship to avoid null errors
-        $categories = Category::with('todos')  // Ensure you're using 'todos' in the relation
+
+        $categories = Category::with('todos')
             ->where('user_id', auth()->user()->id)
             ->get();
 
         return view('category.index', compact('categories'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
         return view('category.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(Request $request)
     {
         $request->validate([
@@ -46,17 +40,13 @@ class CategoryController extends Controller
             ->with('success', 'Category created successfully!');
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show(Category $category)
     {
         // Not implemented
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(Category $category)
     {
         if (auth()->user()->id === $category->user_id) {
@@ -67,9 +57,7 @@ class CategoryController extends Controller
             ->with('danger', 'You are not authorized to edit this category!');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(Request $request, Category $category)
     {
         $request->validate([
@@ -84,9 +72,7 @@ class CategoryController extends Controller
             ->with('success', 'Todo category updated successfully!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy(Category $category)
     {
         if (auth()->user()->id === $category->user_id) {

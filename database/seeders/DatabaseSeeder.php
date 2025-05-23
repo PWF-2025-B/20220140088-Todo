@@ -22,10 +22,10 @@ class DatabaseSeeder extends Seeder
                 'user_id' => $user->id,
             ])
             ->each(function ($category) {
-                // Untuk setiap kategori, buat 3 todo
+
                 Todo::factory()->count(3)->create([
                     'category_id' => $category->id,
-                    'user_id' => $category->user_id, // Pastikan todo juga memiliki user_id yang sama
+                    'user_id' => $category->user_id,
                 ]);
             });
     }
