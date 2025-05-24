@@ -13,7 +13,7 @@
                     <div class="flex flex-col sm:flex-row items-center mb-6 sm:mb-0">
                         <!-- Profile Photo - Ganti URL dengan foto Anda -->
                         <div class="relative">
-                            <img src="https://www.jktliving.com/blog/wp-content/uploads/2024/04/Foto-Animasi-Cowok-Keren-300x300.jpg" alt="Profile Photo" 
+                            <img src="{{ asset('images/profil.png') }}" alt="Profile Photo" style="max-height: 200px;"
                                 class="h-32 w-32 rounded-full border-4 border-white shadow-md object-cover">
                             <div class="absolute bottom-0 right-0 h-5 w-5 rounded-full bg-green-500 border-2 border-white"></div>
                         </div>

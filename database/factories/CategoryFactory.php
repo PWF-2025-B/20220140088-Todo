@@ -14,9 +14,7 @@ class CategoryFactory extends Factory
     {
         return [
             'title' => $this->faker->word(),
-            'user_id' => User::factory(), // Ini akan membuat user baru untuk setiap kategori
-            // Atau gunakan ID user yang sudah ada:
-            // 'user_id' => 1, // Jika Anda yakin user dengan ID 1 sudah ada
+            'user_id' => User::factory(),
         ];
     }
 }
