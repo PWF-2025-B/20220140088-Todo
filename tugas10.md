@@ -14,4 +14,6 @@
 
 ## 4. Browser Dashboard
 
-![alt text](screenshot/tugas10/dashbord.png)
+![
+
+](screenshot/tugas10/dashbord.png)
